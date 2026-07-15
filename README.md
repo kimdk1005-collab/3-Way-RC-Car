@@ -70,39 +70,22 @@
 
 ---
 
-## 4. System Architecture
+## 4. System Architecture & Control Flow
 
-```mermaid
-flowchart LR
-    PHONE[Smartphone] -->|Bluetooth<br>USART1 9600 bps| VUART1[Vehicle UART RX ISR]
+<p align="center">
+  <img src="./assets/system_flow.png" width="100%" alt="3-Way RC Car System Architecture and Control Flow">
+</p>
 
-    J1[Joystick 1] --> ADC[ADC1 Scan<br>4 Channels]
-    J2[Joystick 2] --> ADC
-    BTN[Horn and Light Buttons] --> CTRL[STM32F411 Controller]
-    ADC --> DMA[DMA2 Stream0<br>Circular Mode]
-    DMA --> CTRL
-    CTRL -->|USART1 9600 bps| CBT[Controller Bluetooth]
-    CBT -->|Wireless Link| VUART6[Vehicle USART6 RX ISR]
+<p align="center">
+  <sub>
+    스마트폰·전용 컨트롤러 입력부터 FreeRTOS Task, 초음파 센싱,
+    자율주행 판단 및 차량 출력까지의 전체 제어 흐름
+  </sub>
+</p>
 
-    VUART1 --> QUEUE[FreeRTOS Message Queue]
-    VUART6 --> QUEUE
-    QUEUE --> COMM[CommTask]
-    COMM --> STATE[Mode and Command State]
-
-    ULTRA[Ultrasonic Sensors<br>Left Center Right] --> SENSOR[SensorTask]
-    SENSOR --> FILTER[Adaptive Distance Filter]
-    FILTER --> DIST[Protected Distance Data]
-
-    STATE --> MOTOR[MotorTask]
-    DIST --> MOTOR
-
-    MOTOR --> PWM[TIM2 PWM CH1 and CH2]
-    PWM --> DRIVER[Motor Driver]
-    DRIVER --> DRIVE[Left and Right Drive Channels]
-
-    MOTOR --> LIGHT[RGB LED<br>Headlight Turn Signal Rear Light]
-    MOTOR --> BUZZER[TIM3 PWM Buzzer]
-```
+<p align="center">
+  <a href="./docs/3-Way_RC_Car_Flowchart.drawio">Draw.io 원본 보기</a>
+</p>
 
 ### Control Flow
 
@@ -128,7 +111,7 @@ flowchart LR
 
 | Object | Type | 역할 |
 |---|---|---|
-| `btQueue` | Message Queue, 16-byte depth | UART ISR에서 `CommTask`로 1-byte 명령 전달 |
+| `btQueue` | Message Queue, 16 × 1-byte message | UART ISR에서 `CommTask`로 1-byte 명령 전달 |
 | `stateMutex` | Mutex | 주행 모드와 현재 방향 상태 보호 |
 | `sensorMutex` | Mutex | 좌·중앙·우 거리값 보호 |
 
@@ -325,7 +308,11 @@ adc_buf[3] = Joystick 2 Y
 RC_Car_Project/
 ├── assets/
 │   ├── rc_car.png                # 완성 차량 이미지
-│   └── controller.png            # 전용 컨트롤러 이미지
+│   ├── controller.png            # 전용 컨트롤러 이미지
+│   └── system_flow.png           # 전체 시스템 아키텍처 및 제어 흐름
+│
+├── docs/
+│   └── 3-Way_RC_Car_Flowchart.drawio  # 편집 가능한 Draw.io 원본
 │
 ├── RC_Car/
 │   ├── Inc_code/                 # 차량 펌웨어 Header
