@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "bluetooth.h" // ⭐ bluetooth.c의 함수를 쓰기 위해 헤더 파일 추가
+#include "bluetooth.h"  /* UART 수신 인터럽트 초기화 */
 #include "led.h"
 /* USER CODE END Includes */
 
@@ -47,7 +47,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-// ⭐ 수신 버퍼와 콜백은 이제 bluetooth.c가 전담하므로 여기는 깔끔하게 비워둡니다.
+/* UART 수신 버퍼와 콜백은 bluetooth.c에서 관리한다. */
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -97,16 +97,16 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 
-	LED_Init(); // 부팅 시 LED 초기화 (처음엔 꺼진 상태)
-	// 시스템 시작 시 1초 동안 흰색 LED를 켜서 웰컴 라이트+자가진단 기능을 넣어도 멋집니다!
+	LED_Init(); /* RGB LED OFF 상태로 초기화 */
+	/* 부팅 확인을 위해 1초 동안 White Welcome Light를 출력한다. */
 	LED_SetColor(LED_COLOR_WHITE);
 	HAL_Delay(1000);
-	LED_SetColor(LED_COLOR_BLUE); // 기본 상태인 Manual Mode(파란색)로 전환
-	// 모터 제어용 하드웨어 PWM 채널 1, 2 시작 (FreeRTOS 스케줄러 시작 전 켜두기)
+	LED_SetColor(LED_COLOR_BLUE); /* 기본 모드: Smartphone Manual */
+	/* Scheduler 시작 전에 좌·우 모터 PWM 채널을 활성화한다. */
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
 
-	// ⭐ 스마트폰(USART1) 및 물리 조종기(USART2) 인터럽트 수신을 동시에 시작합니다.
+	/* Smartphone USART1과 Controller USART6의 인터럽트 수신을 시작한다. */
 	BT_Receive_Init();
   /* USER CODE END 2 */
 
@@ -177,7 +177,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-// ⭐ 중복 정의로 에러를 유발하던 콜백 함수 덩어리를 완전히 삭제하여 비워두었습니다.
+/* UART 수신 콜백은 bluetooth.c에 단일 정의되어 있다. */
 /* USER CODE END 4 */
 
 /**

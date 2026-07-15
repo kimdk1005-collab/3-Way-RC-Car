@@ -1,17 +1,25 @@
+/**
+  ******************************************************************************
+  * @file    led.c
+  * @brief   RGB 상태 LED 제어
+  * @details 공통 음극 RGB LED를 사용해 주행 모드를 색상으로 표시한다.
+  ******************************************************************************
+  */
+
 #include "led.h"
 
 /**
-  * @brief LED 초기화 (부팅 시 전원 OFF 상태로 시작)
+  * @brief RGB LED를 모두 끈 상태로 초기화한다.
   */
 void LED_Init(void) {
     LED_SetColor(LED_COLOR_OFF);
 }
 
 /**
-  * @brief RGB LED 색상 강제 지정 함수 (공통 음극 - Common Cathode 기준)
+  * @brief 지정한 RGB 색상을 출력한다.\n  * @param color 출력할 LED 색상
   */
 void LED_SetColor(LED_Color_t color) {
-    // CubeMX에서 지정한 User Label 매크로(LED_R_Pin 등)를 사용합니다.
+    /* CubeMX User Label로 생성된 Port/Pin 매크로를 사용한다. */
     switch(color) {
         case LED_COLOR_BLUE: // 파란색
             HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
@@ -47,7 +55,7 @@ void LED_SetColor(LED_Color_t color) {
 }
 
 /**
-  * @brief car_mode 변수 값을 읽어서 자동으로 LED 색상을 매핑해주는 함수
+  * @brief 주행 모드를 상태 LED 색상으로 변환한다.\n  * @param mode 0: Manual, 1: Auto, 2: Controller
   */
 void LED_UpdateByMode(uint8_t mode) {
     switch(mode) {
