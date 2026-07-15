@@ -1,0 +1,752 @@
+<mxfile host="app.diagrams.net" agent="ChatGPT Codex" compressed="false" pages="4">
+  <diagram id="page-ppt-overview" name="00_PPT 핵심 플로우">
+    <mxGraphModel dx="472" dy="254" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=30;fontColor=#17324D;spacingLeft=4;" value="&lt;b&gt;3-Way RC Car — Code-Verified System Flow&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="1500" x="50" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#5B7083;spacingLeft=4;" value="Vehicle: STM32F411 + FreeRTOS · Controller: STM32F411 + ADC-DMA" vertex="1">
+          <mxGeometry height="30" width="1500" x="50" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=1;arcSize=20;fillColor=#EAF3FF;strokeColor=#B7D4FA;strokeWidth=2;shadow=0;connectable=0;" value="" vertex="1">
+          <mxGeometry height="305" width="1080" x="40" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="rounded=1;arcSize=50;fillColor=#2F80ED;strokeColor=#2F80ED;fontColor=#FFFFFF;fontFamily=Arial;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" value="COMMAND &amp; COMMUNICATION" vertex="1">
+          <mxGeometry height="38" width="300" x="65" y="162" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=1;arcSize=20;fillColor=#E7F8F3;strokeColor=#A9E3D3;strokeWidth=2;shadow=0;connectable=0;" value="" vertex="1">
+          <mxGeometry height="305" width="420" x="1140" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="rounded=1;arcSize=50;fillColor=#13A37D;strokeColor=#13A37D;fontColor=#FFFFFF;fontFamily=Arial;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" value="SENSING" vertex="1">
+          <mxGeometry height="38" width="170" x="1165" y="162" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="rounded=1;arcSize=20;fillColor=#F2EEFF;strokeColor=#D6CAFF;strokeWidth=2;shadow=0;connectable=0;" value="" vertex="1">
+          <mxGeometry height="370" width="1520" x="40" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="1" style="rounded=1;arcSize=50;fillColor=#7C5CFC;strokeColor=#7C5CFC;fontColor=#FFFFFF;fontFamily=Arial;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" value="DRIVE CONTROL &amp; OUTPUT" vertex="1">
+          <mxGeometry height="38" width="285" x="65" y="498" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=15;fillColor=#FFFFFF;strokeColor=#2F80ED;" value="&lt;b&gt;스마트폰&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#2F80ED&quot;&gt;Bluetooth → 차량 USART1&lt;/font&gt;" vertex="1">
+          <mxGeometry height="82" width="195" x="65" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=14;fillColor=#FFFFFF;strokeColor=#F2994A;" value="&lt;b&gt;전용 컨트롤러&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#C65D19&quot;&gt;USART1 → Bluetooth&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;차량 USART6 수신&lt;/font&gt;" vertex="1">
+          <mxGeometry height="96" width="195" x="65" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=15;fillColor=#FFFFFF;strokeColor=#2F80ED;" value="&lt;b&gt;Vehicle UART RX ISR&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;1-byte 수신 · 재등록&lt;/font&gt;" vertex="1">
+          <mxGeometry height="92" width="185" x="305" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fillColor=#DDEBFF;strokeColor=#2F80ED;" value="&lt;b&gt;btQueue&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;16 × 1-byte&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="155" x="535" y="283" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=15;fillColor=#FFFFFF;strokeColor=#2F80ED;" value="&lt;b&gt;CommTask&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;명령 분류 · 상태/이벤트&lt;/font&gt;" vertex="1">
+          <mxGeometry height="92" width="190" x="730" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=14;fillColor=#DDEBFF;strokeColor=#2F80ED;" value="&lt;b&gt;Control State&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#2F80ED&quot;&gt;mode(0/1/2)&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;current_dir · headlight_on&lt;/font&gt;" vertex="1">
+          <mxGeometry height="112" width="145" x="955" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=15;fillColor=#FFFFFF;strokeColor=#13A37D;" value="&lt;b&gt;초음파 × 3&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#13795F&quot;&gt;Left · Center · Right&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="165" x="1168" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=13;fillColor=#FFFFFF;strokeColor=#13A37D;" value="&lt;b&gt;SensorTask&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#13795F&quot;&gt;좌 → 중앙 → 우&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;센서 간 15 ms ·&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font color=&quot;#5B7083&quot;&gt;Timeout 6 ms&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="104" width="165" x="1370" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=13;fillColor=#FFFFFF;strokeColor=#13A37D;" value="&lt;b&gt;거리 필터&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#13795F&quot;&gt;무효값은 직전값 유지&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;30% 초과 즉시 · 그 외 평균&lt;/font&gt;" vertex="1">
+          <mxGeometry height="98" width="165" x="1370" y="334" as="geometry" />
+        </mxCell>
+        <mxCell id="19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=14;fillColor=#D7F2EA;strokeColor=#13A37D;" value="&lt;b&gt;Distance State&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#13795F&quot;&gt;dist_L · dist_C · dist_R&lt;/font&gt;" vertex="1">
+          <mxGeometry height="84" width="165" x="1168" y="342" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=14;fillColor=#FFFFFF;strokeColor=#7C5CFC;" value="&lt;b&gt;State Snapshot&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#6B56D8&quot;&gt;stateMutex&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;mode · current_dir&lt;/font&gt;" vertex="1">
+          <mxGeometry height="96" width="195" x="65" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fillColor=#E7E0FF;strokeColor=#7C5CFC;" value="&lt;b&gt;MotorTask&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#6B56D8&quot;&gt;20 ms 제어 주기&lt;/font&gt;" vertex="1">
+          <mxGeometry height="90" width="190" x="330" y="638" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7C5CFC;strokeWidth=3;fontFamily=Arial;fontSize=16;fontColor=#3F2C8C;fontStyle=1;spacing=8;" value="&lt;b&gt;현재 주행 모드?&lt;/b&gt;" vertex="1">
+          <mxGeometry height="140" width="170" x="600" y="613" as="geometry" />
+        </mxCell>
+        <mxCell id="23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=15;fillColor=#FFF2E2;strokeColor=#F2994A;" value="&lt;b&gt;Manual / Controller&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#A95413&quot;&gt;f · b · l · r · s&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;PWM 600&lt;/font&gt;" vertex="1">
+          <mxGeometry height="98" width="225" x="835" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=14;fillColor=#E2F7F2;strokeColor=#13A37D;" value="&lt;b&gt;Autonomous&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#13795F&quot;&gt;25 cm · 7 cm · P=15&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#5B7083&quot;&gt;회피 + 중앙 유지 · PWM 450&lt;/font&gt;" vertex="1">
+          <mxGeometry height="105" width="225" x="835" y="695" as="geometry" />
+        </mxCell>
+        <mxCell id="27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=12;fillColor=#E7F8F3;strokeColor=#13A37D;" value="&lt;b&gt;Auto: Distance Snapshot&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#13795F&quot;&gt;sensorMutex · 거리값 복사&lt;/font&gt;" vertex="1">
+          <mxGeometry height="58" width="190" x="590" y="778" as="geometry" />
+        </mxCell>
+        <mxCell id="28" parent="1" style="ellipse;html=1;aspect=fixed;fillColor=#7C5CFC;strokeColor=#7C5CFC;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="1168" y="668" as="geometry" />
+        </mxCell>
+        <mxCell id="25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fillColor=#17324D;strokeColor=#17324D;fontColor=#FFFFFF;strokeWidth=3;" value="&lt;b&gt;Motor Output&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#DCE8F3&quot;&gt;TIM2 CH1/CH2 → Driver&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#FFFFFF&quot;&gt;좌·우 모터 구동&lt;/font&gt;" vertex="1">
+          <mxGeometry height="108" width="250" x="1250" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=16;fontFamily=Arial;fontSize=16;fontColor=#17324D;strokeWidth=2;shadow=0;spacing=8;fontSize=14;fillColor=#5B4BDB;strokeColor=#5B4BDB;fontColor=#FFFFFF;strokeWidth=3;" value="&lt;b&gt;상태·안전 출력&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#E8E3FF&quot;&gt;RGB · 방향등 · 후진등&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#FFFFFF&quot;&gt;Headlight · Buzzer&lt;/font&gt;" vertex="1">
+          <mxGeometry height="94" width="250" x="1250" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="100" edge="1" parent="1" source="10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#2F80ED;" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="101" edge="1" parent="1" source="11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#F2994A;" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="102" edge="1" parent="1" source="12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#2F80ED;" target="13">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="525" y="316" />
+              <mxPoint x="525" y="316" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="103" edge="1" parent="1" source="13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#2F80ED;" target="14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720" y="317" />
+              <mxPoint x="720" y="317" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="104" edge="1" parent="1" source="14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#2F80ED;" target="15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="105" edge="1" parent="1" source="16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#13A37D;" target="17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="106" edge="1" parent="1" source="17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#13A37D;" target="18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="107" edge="1" parent="1" source="18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#13A37D;" target="19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="108" edge="1" parent="1" source="15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#2F80ED;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="20">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1028" y="464" />
+              <mxPoint x="574" y="464" />
+              <mxPoint x="574" y="565" />
+              <mxPoint x="163" y="565" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="109" edge="1" parent="1" source="20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#7C5CFC;" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="110" edge="1" parent="1" source="21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#7C5CFC;" target="22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="586" y="683" />
+              <mxPoint x="586" y="683" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="111" edge="1" parent="1" source="22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#F2994A;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="112" edge="1" parent="1" source="22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#13A37D;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;" target="24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="113" edge="1" parent="1" source="19" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#13A37D;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.514;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;" target="27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1129" y="385" />
+              <mxPoint x="1129" y="881" />
+              <mxPoint x="688" y="881" />
+              <mxPoint x="688" y="836" />
+            </Array>
+            <mxPoint x="1161.0000000000002" y="385" as="sourcePoint" />
+            <mxPoint x="673.78" y="834.304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="114" edge="1" parent="1" source="27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#13A37D;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0.003;entryY=0.701;entryDx=0;entryDy=0;entryPerimeter=0;" target="24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="115" edge="1" parent="1" source="23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#F2994A;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="28">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="594" />
+              <mxPoint x="1178" y="594" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="116" edge="1" parent="1" source="24" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#13A37D;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="28">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="748" />
+              <mxPoint x="1178" y="748" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="117" edge="1" parent="1" source="28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#7C5CFC;exitX=1;exitY=0.35;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="118" edge="1" parent="1" source="28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;endArrow=block;endFill=1;endSize=12;fontFamily=Arial;fontSize=13;fontStyle=1;labelBackgroundColor=#F7F9FC;strokeColor=#7C5CFC;exitX=1;exitY=0.65;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="26">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1188" y="678" />
+              <mxPoint x="1215" y="678" />
+              <mxPoint x="1215" y="767" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-1" name="01_전체 시스템 흐름">
+    <mxGraphModel dx="1420" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="&lt;b&gt;3-Way RC Car — 전체 시스템 동작 흐름&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=30;fontColor=#102A43;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1320" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Vehicle: STM32F411 + FreeRTOS · Controller: STM32F411 + ADC-DMA" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#627D98;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="66" width="1320" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="&lt;b&gt;SYSTEM STARTUP&lt;/b&gt;" style="swimlane;html=1;rounded=1;startSize=42;horizontal=1;fillColor=#F0F4F8;swimlaneFillColor=#FFFFFF;strokeColor=#BCCCDC;fontColor=#334E68;fontFamily=Arial;fontSize=15;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="115" width="250" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="&lt;b&gt;COMMUNICATION · CommTask&lt;/b&gt;" style="swimlane;html=1;rounded=1;startSize=42;horizontal=1;fillColor=#E6F0FF;swimlaneFillColor=#FFFFFF;strokeColor=#7DA7D9;fontColor=#174EA6;fontFamily=Arial;fontSize=15;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="310" y="115" width="310" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="&lt;b&gt;SENSING · SensorTask&lt;/b&gt;" style="swimlane;html=1;rounded=1;startSize=42;horizontal=1;fillColor=#E6F7F4;swimlaneFillColor=#FFFFFF;strokeColor=#79B8A9;fontColor=#087F5B;fontFamily=Arial;fontSize=15;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="640" y="115" width="310" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="&lt;b&gt;CONTROL · MotorTask&lt;/b&gt;" style="swimlane;html=1;rounded=1;startSize=42;horizontal=1;fillColor=#F3E8FF;swimlaneFillColor=#FFFFFF;strokeColor=#B79CED;fontColor=#6B3FA0;fontFamily=Arial;fontSize=15;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="970" y="115" width="390" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;b&gt;전원 ON / Reset&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#102A43;strokeColor=#102A43;fontColor=#FFFFFF;fontFamily=Arial;fontSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="175" width="160" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;b&gt;HAL · Clock · GPIO 초기화&lt;/b&gt;&lt;br&gt;TIM2 / TIM3 · USART1 / USART6" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#829AB1;fontColor=#243B53;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="65" y="270" width="200" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="&lt;b&gt;차량 출력 준비&lt;/b&gt;&lt;br&gt;RGB White 1초 → Blue&lt;br&gt;모터 PWM 시작 · UART RX 등록" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#829AB1;fontColor=#243B53;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="65" y="385" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="&lt;b&gt;FreeRTOS 객체 생성&lt;/b&gt;&lt;br&gt;btQueue(16) · stateMutex&lt;br&gt;sensorMutex · 3개 Task" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#829AB1;fontColor=#243B53;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="65" y="510" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="&lt;b&gt;osKernelStart()&lt;/b&gt;&lt;br&gt;Task Scheduler 실행" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#334E68;strokeColor=#334E68;fontColor=#FFFFFF;fontFamily=Arial;fontSize=14;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="65" y="640" width="200" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="SensorTask: Above Normal&lt;br&gt;MotorTask / CommTask: Normal" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFF8E1;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="65" y="755" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="&lt;b&gt;스마트폰 Bluetooth&lt;/b&gt;&lt;br&gt;USART1 · ASCII 1 byte" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="330" y="175" width="125" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="&lt;b&gt;전용 컨트롤러&lt;/b&gt;&lt;br&gt;Controller USART1 → BT&lt;br&gt;Vehicle USART6 수신" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE5E5;strokeColor=#D76A6A;fontColor=#9B1C1C;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="475" y="175" width="125" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="&lt;b&gt;UART RX ISR&lt;/b&gt;&lt;br&gt;명령 해석 없이 Queue 전달&lt;br&gt;다음 1-byte 수신 재등록" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4C84C6;fontColor=#243B53;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="290" width="230" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="&lt;b&gt;btQueue&lt;/b&gt;&lt;br&gt;수신 명령 FIFO 저장" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fillColor=#EAF2FF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="385" y="410" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="&lt;b&gt;CommTask&lt;/b&gt;&lt;br&gt;Queue 대기 → 명령 분류" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=14;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="520" width="230" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="&lt;b&gt;명령 처리&lt;/b&gt;&lt;br&gt;A: Auto · M: Manual · C: Controller&lt;br&gt;H: Horn · T: Headlight Toggle&lt;br&gt;f / b / l / r / s: 방향" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4C84C6;fontColor=#243B53;fontFamily=Arial;fontSize=12;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="330" y="630" width="270" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="&lt;b&gt;stateMutex 보호 상태&lt;/b&gt;&lt;br&gt;is_auto_mode · current_dir&lt;br&gt;headlight_on" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="785" width="230" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="&lt;b&gt;초음파 센서 × 3&lt;/b&gt;&lt;br&gt;좌 · 중앙 · 우" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D8F3ED;strokeColor=#3A9D85;fontColor=#087F5B;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="690" y="175" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="&lt;b&gt;SensorTask 순차 측정&lt;/b&gt;&lt;br&gt;Left → 15 ms → Center&lt;br&gt;→ 15 ms → Right → 15 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#3A9D85;fontColor=#243B53;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="680" y="290" width="230" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="Echo 시작 / High 구간&lt;br&gt;각 6,000 μs Timeout" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFF8E1;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="700" y="410" width="190" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="&lt;b&gt;거리값 필터&lt;/b&gt;&lt;br&gt;무응답: 직전값 유지&lt;br&gt;30% 초과 변화: 즉시 반영&lt;br&gt;작은 변화: 50:50 평균" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#3A9D85;fontColor=#243B53;fontFamily=Arial;fontSize=12;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="675" y="515" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="&lt;b&gt;sensorMutex 보호 거리값&lt;/b&gt;&lt;br&gt;dist_L · dist_C · dist_R" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D8F3ED;strokeColor=#3A9D85;fontColor=#087F5B;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="680" y="665" width="230" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="지속 반복" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E6F7F4;strokeColor=#3A9D85;fontColor=#087F5B;fontFamily=Arial;fontSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="730" y="800" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="&lt;b&gt;MotorTask · 20 ms 주기&lt;/b&gt;&lt;br&gt;상태 복사 · Auto 시 거리값 복사" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EADCF8;strokeColor=#8E63B6;fontColor=#6B3FA0;fontFamily=Arial;fontSize=14;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="175" width="260" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="&lt;b&gt;현재 주행 모드?&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="300" width="200" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="&lt;b&gt;Manual / Controller&lt;/b&gt;&lt;br&gt;f: 전진 · b: 후진&lt;br&gt;l/r: 제자리 회전 · s: 정지&lt;br&gt;PWM 600" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=12;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="990" y="460" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="&lt;b&gt;Autonomous&lt;/b&gt;&lt;br&gt;전방/측면 회피 우선&lt;br&gt;안전 시 좌우 거리 P 제어&lt;br&gt;기본·회전 PWM 450" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D8F3ED;strokeColor=#3A9D85;fontColor=#087F5B;fontFamily=Arial;fontSize=12;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1175" y="460" width="165" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="&lt;b&gt;모터 출력&lt;/b&gt;&lt;br&gt;TIM2 PWM CH1/CH2&lt;br&gt;Motor Driver → 좌·우 모터" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8E63B6;fontColor=#243B53;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="625" width="250" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="&lt;b&gt;상태·안전 출력 갱신&lt;/b&gt;&lt;br&gt;RGB: Blue / Green / Red&lt;br&gt;방향지시등 · 후진등 · 헤드라이트&lt;br&gt;경적 · 후진 경고음" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#8E63B6;fontColor=#6B3FA0;fontFamily=Arial;fontSize=12;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1025" y="760" width="280" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#627D98;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#627D98;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="9" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#627D98;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="10" target="11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#627D98;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="11" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="14" target="16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D76A6A;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="15" target="16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="16" target="17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="17" target="18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="18" target="19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="19" target="20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="21" target="22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="22" target="23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="23" target="24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="24" target="25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="25" target="26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;dashed=1;endSize=11;fontSize=13;" edge="1" parent="1" source="26" target="22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="935" y="825" />
+              <mxPoint x="935" y="333" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="27" target="28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="50" value="M / C" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="28" target="29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="51" value="A" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="28" target="30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="29" target="31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="30" target="31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="27" target="32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="55" value="osDelay(20)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;dashed=1;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="32" target="27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1345" y="809" />
+              <mxPoint x="1345" y="212" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="56" value="Task 시작" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endFill=0;strokeColor=#829AB1;strokeWidth=3;dashed=1;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="12" target="18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endFill=0;strokeColor=#829AB1;strokeWidth=3;dashed=1;endSize=11;fontSize=13;" edge="1" parent="1" source="12" target="22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="295" y="674" />
+              <mxPoint x="295" y="875" />
+              <mxPoint x="630" y="875" />
+              <mxPoint x="630" y="333" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;endFill=0;strokeColor=#829AB1;strokeWidth=3;dashed=1;endSize=11;fontSize=13;" edge="1" parent="1" source="12" target="27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="295" y="674" />
+              <mxPoint x="295" y="890" />
+              <mxPoint x="960" y="890" />
+              <mxPoint x="960" y="212" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="59" value="공유 상태" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;dashed=1;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="20" target="27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="610" y="826" />
+              <mxPoint x="610" y="890" />
+              <mxPoint x="1000" y="890" />
+              <mxPoint x="1000" y="212" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="60" value="거리값" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;dashed=1;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="25" target="27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="945" y="702" />
+              <mxPoint x="945" y="265" />
+              <mxPoint x="1005" y="265" />
+              <mxPoint x="1005" y="212" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-2" name="02_자율주행 판단 알고리즘">
+    <mxGraphModel dx="1420" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="&lt;b&gt;Autonomous Mode — 장애물 회피 + 복도 중앙 유지 P 제어&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=27;fontColor=#102A43;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1320" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="MotorTask 내부 판단 우선순위 · GitHub main 기준" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#627D98;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="68" width="1320" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="&lt;b&gt;Auto Mode 제어 주기 시작&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#087F5B;strokeColor=#087F5B;fontColor=#FFFFFF;fontFamily=Arial;fontSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="545" y="120" width="270" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="&lt;b&gt;sensorMutex로 거리값 복사&lt;/b&gt;&lt;br&gt;l = dist_L · c = dist_C · r = dist_R" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F7F4;strokeColor=#3A9D85;fontColor=#087F5B;fontFamily=Arial;fontSize=14;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="530" y="220" width="300" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="0 cm 측정값은 판단에서 제외&lt;br&gt;0 → SENSOR_INVALID(999 cm)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#829AB1;fontColor=#334E68;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="555" y="335" width="250" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="&lt;b&gt;c &amp;lt; 25 cm ?&lt;/b&gt;&lt;br&gt;전방 장애물" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="560" y="445" width="240" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;b&gt;l ≥ r ?&lt;/b&gt;&lt;br&gt;좌측 공간이 더 넓음" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="175" y="460" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;b&gt;제자리 좌회전&lt;/b&gt;&lt;br&gt;motor_spin_left(450)&lt;br&gt;light_dir = &#39;l&#39;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D8F3ED;strokeColor=#3A9D85;fontColor=#087F5B;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="55" y="620" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="&lt;b&gt;제자리 우회전&lt;/b&gt;&lt;br&gt;motor_spin_right(450)&lt;br&gt;light_dir = &#39;r&#39;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D8F3ED;strokeColor=#3A9D85;fontColor=#087F5B;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="315" y="620" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="&lt;b&gt;l &amp;lt; 7 cm ?&lt;/b&gt;&lt;br&gt;좌측 충돌 임박" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFE5D9;strokeColor=#D97A43;fontColor=#9A3412;fontFamily=Arial;fontSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="560" y="605" width="240" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="&lt;b&gt;제자리 우회전&lt;/b&gt;&lt;br&gt;왼쪽 벽에서 이탈&lt;br&gt;motor_spin_right(450)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE5D9;strokeColor=#D97A43;fontColor=#9A3412;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="875" y="615" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="&lt;b&gt;r &amp;lt; 7 cm ?&lt;/b&gt;&lt;br&gt;우측 충돌 임박" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFE5D9;strokeColor=#D97A43;fontColor=#9A3412;fontFamily=Arial;fontSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="560" y="760" width="240" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="&lt;b&gt;제자리 좌회전&lt;/b&gt;&lt;br&gt;오른쪽 벽에서 이탈&lt;br&gt;motor_spin_left(450)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE5D9;strokeColor=#D97A43;fontColor=#9A3412;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="875" y="770" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="&lt;b&gt;안전 구역 — P 제어 계산&lt;/b&gt;&lt;br&gt;diff = l − r · ±2 cm Deadband&lt;br&gt;offset = clamp(diff × 15, −200, 200)&lt;br&gt;left = 450 − offset · right = 450 + offset" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F0FF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="500" y="920" width="360" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="&lt;b&gt;차등 PWM 직진&lt;/b&gt;&lt;br&gt;motor_forward_diff(left, right)&lt;br&gt;light_dir = &#39;f&#39;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="930" width="260" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="&lt;b&gt;모터·방향 상태 확정&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#8E63B6;fontColor=#6B3FA0;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="145" y="805" width="250" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="Buzzer_Update() · CarLight_Update()&lt;br&gt;osDelay(20) 후 다음 판단 주기" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#8E63B6;fontColor=#6B3FA0;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="935" width="340" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="&lt;b&gt;주요 튜닝값&lt;/b&gt;&lt;br&gt;&lt;br&gt;FRONT_SAFE_CM = 25 cm&lt;br&gt;SIDE_EMERGENCY_CM = 7 cm&lt;br&gt;SPEED_BASE = 450&lt;br&gt;SPEED_SPIN = 450&lt;br&gt;P_GAIN = 15&lt;br&gt;MAX_STEER_OFFSET = ±200&lt;br&gt;Deadband = ±2 cm" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#BCCCDC;fontColor=#334E68;fontFamily=Arial;fontSize=13;align=left;spacingLeft=18;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="180" width="255" height="245" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="&lt;b&gt;판단 우선순위&lt;/b&gt;&lt;br&gt;1. 전방 장애물&lt;br&gt;2. 좌측 긴급 회피&lt;br&gt;3. 우측 긴급 회피&lt;br&gt;4. P 제어 직진" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=13;align=left;spacingLeft=18;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="475" width="265" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="4" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D6B656;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="7" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#3A9D85;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="8" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D6B656;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="7" target="11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D97A43;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="11" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D97A43;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="11" target="13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D97A43;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="13" target="14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="13" target="15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="15" target="16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="9" target="17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="10" target="17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="12" target="17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="985" y="725" />
+              <mxPoint x="445" y="725" />
+              <mxPoint x="445" y="838" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="14" target="17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="985" y="890" />
+              <mxPoint x="445" y="890" />
+              <mxPoint x="445" y="838" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="16" target="18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1130" y="1050" />
+              <mxPoint x="255" y="1050" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="17" target="18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="39" value="다음 20 ms 주기" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;dashed=1;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="18" target="4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="35" y="973" />
+              <mxPoint x="35" y="149" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-3" name="03_물리 컨트롤러 흐름">
+    <mxGraphModel dx="1420" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1050" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="&lt;b&gt;Physical Controller — Joystick · Button · UART 명령 생성 흐름&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=27;fontColor=#102A43;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1320" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Controller STM32F411CEU6 · ADC Scan + Circular DMA · 50 ms 입력 루프" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#627D98;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="68" width="1320" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="&lt;b&gt;컨트롤러 전원 ON&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9B1C1C;strokeColor=#9B1C1C;fontColor=#FFFFFF;fontFamily=Arial;fontSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="90" y="125" width="240" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="&lt;b&gt;주변장치 초기화&lt;/b&gt;&lt;br&gt;GPIO · DMA2 · ADC1 · USART1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE5E5;strokeColor=#D76A6A;fontColor=#9B1C1C;fontFamily=Arial;fontSize=14;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="70" y="225" width="280" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="&lt;b&gt;ADC1 Circular DMA 시작&lt;/b&gt;&lt;br&gt;adc_buf[0..3]에 12-bit 값 연속 수집" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D76A6A;fontColor=#334E68;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="65" y="345" width="290" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="&lt;b&gt;최신 입력 읽기&lt;/b&gt;&lt;br&gt;joy1_y = adc_buf[1]&lt;br&gt;joy2_x = adc_buf[2]&lt;br&gt;PB12 / PB13 버튼 상태" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#829AB1;fontColor=#334E68;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="475" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;b&gt;PB12 Falling Edge?&lt;/b&gt;&lt;br&gt;Joystick 1 버튼" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="455" y="150" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;b&gt;&#39;H&#39; 전송&lt;/b&gt;&lt;br&gt;400 ms 경적" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="755" y="165" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="&lt;b&gt;PB13 Falling Edge?&lt;/b&gt;&lt;br&gt;Joystick 2 버튼" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="455" y="300" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="&lt;b&gt;&#39;T&#39; 전송&lt;/b&gt;&lt;br&gt;헤드라이트 Toggle&lt;br&gt;좌회전 &#39;L&#39;과 분리" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="755" y="305" width="190" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="&lt;b&gt;joy1_y &amp;gt; 3000 ?&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="460" y="465" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="current_cmd = &#39;f&#39;&lt;br&gt;&lt;b&gt;Forward&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="755" y="475" width="190" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="&lt;b&gt;joy1_y &amp;lt; 1000 ?&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="460" y="590" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="current_cmd = &#39;b&#39;&lt;br&gt;&lt;b&gt;Backward&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="755" y="600" width="190" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="&lt;b&gt;joy2_x &amp;gt; 3000 ?&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="460" y="715" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="current_cmd = &#39;l&#39;&lt;br&gt;&lt;b&gt;Left&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="755" y="725" width="190" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="&lt;b&gt;joy2_x &amp;lt; 1000 ?&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="460" y="840" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="current_cmd = &#39;r&#39;&lt;br&gt;&lt;b&gt;Right&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFF;strokeColor=#4C84C6;fontColor=#174EA6;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="755" y="850" width="190" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="current_cmd = &#39;s&#39;&lt;br&gt;&lt;b&gt;Stop&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F4F8;strokeColor=#829AB1;fontColor=#334E68;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="755" y="950" width="190" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="&lt;b&gt;current_cmd ≠ last_cmd ?&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#8E63B6;fontColor=#6B3FA0;fontFamily=Arial;fontSize=13;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1015" y="605" width="250" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="&lt;b&gt;방향 명령 1 byte 전송&lt;/b&gt;&lt;br&gt;USART1 9600 bps&lt;br&gt;last_cmd 갱신" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#8E63B6;fontColor=#6B3FA0;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="760" width="220" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="&lt;b&gt;HAL_Delay(50)&lt;/b&gt;&lt;br&gt;다음 입력 판정" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#334E68;strokeColor=#334E68;fontColor=#FFFFFF;fontFamily=Arial;fontSize=13;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="910" width="220" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="&lt;b&gt;차량 수신 명령 프로토콜&lt;/b&gt;&lt;br&gt;&lt;br&gt;A / a  → Autonomous Mode&lt;br&gt;M / m → Smartphone Manual&lt;br&gt;C / c  → Physical Controller&lt;br&gt;f / b / l / r / s → 주행 방향&lt;br&gt;H / h → Horn&lt;br&gt;T → Headlight Toggle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#BCCCDC;fontColor=#334E68;fontFamily=Arial;fontSize=13;align=left;spacingLeft=18;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="175" width="300" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="방향 우선순위&lt;br&gt;Joy1 Y(전·후진) → Joy2 X(좌·우)&lt;br&gt;두 축이 모두 중립이면 Stop" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFF8E1;strokeColor=#D6B656;fontColor=#7A5D00;fontFamily=Arial;fontSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="70" y="675" width="285" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D76A6A;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="4" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D76A6A;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#829AB1;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D6B656;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="7" target="8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="526" />
+              <mxPoint x="410" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="30" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D6B656;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="No / 다음 검사" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D6B656;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="8" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D6B656;strokeWidth=3;dashed=1;endSize=11;fontSize=13;" edge="1" parent="1" source="9" target="10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="965" y="200" />
+              <mxPoint x="965" y="275" />
+              <mxPoint x="565" y="275" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="33" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D6B656;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="10" target="11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="No / 방향 판정" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="10" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;dashed=1;endSize=11;fontSize=13;" edge="1" parent="1" source="11" target="12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="965" y="346" />
+              <mxPoint x="965" y="430" />
+              <mxPoint x="565" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="36" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="12" target="13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="37" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="12" target="14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="38" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="14" target="15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="39" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="14" target="16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="40" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="16" target="17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="41" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="16" target="18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="42" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4C84C6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="18" target="19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="43" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#829AB1;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="18" target="20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="13" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="15" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="17" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="19" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="20" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="49" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="21" target="22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="50" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#829AB1;strokeWidth=3;dashed=1;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="21" target="23">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1290" y="657" />
+              <mxPoint x="1290" y="944" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#8E63B6;strokeWidth=3;endSize=11;fontSize=13;" edge="1" parent="1" source="22" target="23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="52" value="입력 루프" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334E68;strokeWidth=3;dashed=1;fontFamily=Arial;fontSize=10;labelBackgroundColor=#FFFFFF;endSize=11;" edge="1" parent="1" source="23" target="7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1285" y="944" />
+              <mxPoint x="1285" y="1025" />
+              <mxPoint x="35" y="1025" />
+              <mxPoint x="35" y="526" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
