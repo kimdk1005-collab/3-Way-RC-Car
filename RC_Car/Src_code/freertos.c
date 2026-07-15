@@ -2,8 +2,7 @@
 /**
   ******************************************************************************
   * File Name          : freertos.c
-  * Description        : RC Car Autonomous Driving + LED Mode + Reverse Buzzer
-  * [수정본: P-제어 자율주행 복구 + LED/라이트/컨트롤러 모드 유지]
+  * Description        : FreeRTOS-based 3-Way RC Car control and autonomous driving
   ******************************************************************************
   */
 /* USER CODE END Header */
