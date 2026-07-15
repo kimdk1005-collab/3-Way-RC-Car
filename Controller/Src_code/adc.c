@@ -2,8 +2,9 @@
 /**
   ******************************************************************************
   * @file    adc.c
-  * @brief   This file provides code for the configuration
-  *          of the ADC instances.
+  * @brief   Joystick 4채널 입력을 위한 ADC1 Scan 및 DMA 설정
+  * @details  PA0~PA3을 12-bit 연속 변환하고 DMA2 Stream0 Circular Mode로
+  *           adc_buf에 반복 저장한다.
   ******************************************************************************
   * @attention
   *
@@ -27,7 +28,10 @@
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
-/* ADC1 init function */
+/**
+  * @brief ADC1을 4채널 Scan + Continuous Conversion으로 초기화한다.
+  * @note  변환 순서: IN0 -> IN1 -> IN2 -> IN3
+  */
 void MX_ADC1_Init(void)
 {
 
@@ -41,8 +45,10 @@ void MX_ADC1_Init(void)
 
   /* USER CODE END ADC1_Init 1 */
 
-  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
-  */
+  /*
+   * 12-bit, Right Alignment, 4채널 Scan, Continuous Conversion,
+   * DMA Continuous Request를 활성화한다.
+   */
   hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;

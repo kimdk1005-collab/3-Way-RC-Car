@@ -2,8 +2,9 @@
 /**
   ******************************************************************************
   * @file    dma.c
-  * @brief   This file provides code for the configuration
-  *          of all the requested memory to memory DMA transfers.
+  * @brief   ADC1 데이터 수집을 위한 DMA2 초기화
+  * @details  DMA2 Stream0 인터럽트를 활성화하며 세부 전송 형식은
+  *           adc.c의 HAL_ADC_MspInit()에서 설정한다.
   ******************************************************************************
   * @attention
   *
@@ -34,7 +35,7 @@
 /* USER CODE END 1 */
 
 /**
-  * Enable DMA controller clock
+  * @brief DMA2 Clock과 Stream0 Interrupt를 활성화한다.
   */
 void MX_DMA_Init(void)
 {
